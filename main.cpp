@@ -132,11 +132,13 @@ void pseudo_real_test() {
         b.y = generate_random(prefs.height);
         c.x = 0;
         c.y = 0;
-        // calculate area
-        float area = triangle_area(a, b, c);
-        summ += area;
-        logging(area);
-        // count test
-        count++;
+        if ((a.x > a.y) && (b.x < b.y)) {
+            // calculate area
+            float area = triangle_area(a, b, c);
+            summ += area;
+            logging(area);
+            // count test
+            count++;
+        }
     }
 };
