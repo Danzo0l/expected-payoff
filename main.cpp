@@ -52,6 +52,8 @@ void pseudo_real_test();
 int main() {
     srand(time(NULL));
 
+    set_null();
+
     if (prefs.mode) {
         theoretical_test();
     } else {
@@ -77,18 +79,20 @@ void set_null() {
 }
 
 
+
 float generate_random(float b) {
     // generate whole part 
     int number = ((int)(rand()) % int(b));
     // generate fractional part 
     float fractional =(double)(rand()) / RAND_MAX; 
-
+    // return sum whoole and fractional parts
     return number + fractional;
 };
 
 
 void logging(float area) {
     if (prefs.indexing) {
+        // add value to vector
         analistyc.push_back(area);
     }
 };
@@ -99,18 +103,23 @@ void theoretical_test() {
         for (float y1=0; y1< prefs.height; y1+=(prefs.height/prefs.points)) {
             for (float x2=0; x2< prefs.height; x2+=(prefs.height/prefs.points)) {
                 for (float y2=0; y2< prefs.height; y2+=(prefs.height/prefs.points)) {
+                    // check points positions: 1st point in up area, 2nd point in low area
                     if ((x1 > y1) && (x2 < y2)) {
                         // generate 1 variant of points
+                        // initialization points
                         point a, b, c;
                         a.x = x1;
                         a.y = y1;
                         b.x = x2;
                         b.y = y2;
+                        // 3rb point is a const
                         c.x = 0;
                         c.y = 0;
                         // calculate area
                         float area = triangle_area(a, b, c);
+                        // calculate areas sum
                         summ += area;
+                        // save areas in vector
                         logging(area);
                         // count test
                         count++;
@@ -125,17 +134,22 @@ void theoretical_test() {
 void pseudo_real_test() {
     for (int i=0; i<prefs.count_tests; i++) {
         // generate random points
+        // initialization points
         point a, b, c;
         a.x = generate_random(prefs.height);
         a.y = generate_random(prefs.height);
         b.x = generate_random(prefs.height);
         b.y = generate_random(prefs.height);
+        // 3rb point is a const
         c.x = 0;
         c.y = 0;
+        // check points positions: 1st point in up area, 2nd point in low area
         if ((a.x > a.y) && (b.x < b.y)) {
             // calculate area
             float area = triangle_area(a, b, c);
+            // calculate areas sum
             summ += area;
+            // save areas in vector
             logging(area);
             // count test
             count++;
